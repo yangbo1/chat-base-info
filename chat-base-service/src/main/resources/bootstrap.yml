@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: base
+  cloud:
+    config:
+      uri: http://${env.hostname.config:localhost}:8888
+      profile: ${env.profile:dev}
+encrypt:
+  failOnError: false
