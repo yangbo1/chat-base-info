@@ -1,9 +1,10 @@
 package com.yb.chat;
 
+import com.yb.chat.server.ChatServer;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -12,6 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 public class ChatBaseServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChatBaseServiceApplication.class, args);
+		ConfigurableApplicationContext run = SpringApplication.run(ChatBaseServiceApplication.class, args);
+		ChatServer.setApplicationContext(run);
 	}
 }
