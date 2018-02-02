@@ -5,8 +5,10 @@ package com.yb.chat.serivce.impl;
 
 import com.yb.chat.client.response.UserResp;
 import com.yb.chat.convert.ChatConvert;
+import com.yb.chat.dao.UserInfoMapper;
 import com.yb.chat.dao.UserMapper;
 import com.yb.chat.entity.UserEntity;
+import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +28,14 @@ import tk.mybatis.mapper.entity.Example;
 @Service("userService")
 public class UserServiceImpl implements UserService{
     @Autowired
-    private UserMapper mapper;
+    private UserInfoMapper mapper;
 
     @Override
-    public List<UserResp> findByName(String name) {
-        Example example = new Example(UserEntity.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andLike("name", name);
-        List<UserEntity> users = mapper.selectByExample(example);
-        return ChatConvert.convertUserListToResp(users);
+    public void regist(String name, String password) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName(name);
+        userInfo.setPassword(password);
+        userInfo.setRegistTime(System.currentTimeMillis());
+        mapper.insert(userInfo);
     }
 }

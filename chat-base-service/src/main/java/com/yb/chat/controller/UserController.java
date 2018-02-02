@@ -4,6 +4,7 @@
 package com.yb.chat.controller;
 
 import com.yb.chat.client.UserServiceClient;
+import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
 import com.yb.chat.serivce.UserService;
 
@@ -29,8 +30,16 @@ import static com.yb.chat.client.UserServiceClient.PATH;
 public class UserController implements UserServiceClient {
     @Resource(name = "userService")
     private UserService userService;
+
+    /**
+     * 注册
+     * @param name 用户名
+     * @param password 密码
+     * @return
+     */
     @Override
-    public List<UserResp> hello(@PathVariable("name") String name) {
-        return userService.findByName(name);
+    public ChatResult regist(String name, String password) {
+        userService.regist(name, password);
+        return ChatResult.setContent(null);
     }
 }

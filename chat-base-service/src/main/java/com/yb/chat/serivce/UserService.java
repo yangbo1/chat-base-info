@@ -15,5 +15,10 @@ import java.util.List;
  * @since 2018/1/29 0029 15:06
  */
 public interface UserService {
-    List<UserResp> findByName(String name);
+    /**
+     * 注册
+     * @param name 用户名
+     * @param password 密码
+     */
+    void regist(String name, String password);
 }
