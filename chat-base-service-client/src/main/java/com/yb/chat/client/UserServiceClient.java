@@ -6,10 +6,7 @@ import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,16 @@ import static com.yb.chat.client.UserServiceClient.PATH;
 @FeignClient(path = PATH)
 public interface UserServiceClient {
     String PATH = "service/v1/user";
+    /**
+     * 注册
+     * @param name 用户名
+     * @param password 密码
+     * @param img 头像
+     * @return
+     */
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
-    ChatResult regist(@RequestParam("name") String name, @RequestParam("password") String password);
+    @CrossOrigin("*")
+    Object regist(@RequestParam("name") String name, @RequestParam("password") String password,
+                      @RequestParam("img") String img);
 
 }

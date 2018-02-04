@@ -3,8 +3,6 @@
  */
 package com.yb.chat.serivce.impl;
 
-import com.yb.chat.client.response.UserResp;
-import com.yb.chat.convert.ChatConvert;
 import com.yb.chat.dao.UserInfoMapper;
 import com.yb.chat.dao.UserMapper;
 import com.yb.chat.entity.UserEntity;
@@ -16,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import tk.mybatis.mapper.entity.Example;
-
 /**
  * UserServiceImpl:
  *
@@ -27,14 +23,23 @@ import tk.mybatis.mapper.entity.Example;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService{
+    /**
+     * user
+     */
     @Autowired
     private UserInfoMapper mapper;
-
+    /**
+     * 注册
+     * @param name 用户名
+     * @param password 密码
+     * @param img 头像
+     */
     @Override
-    public void regist(String name, String password) {
+    public void regist(String name, String password, String img) {
         UserInfo userInfo = new UserInfo();
         userInfo.setName(name);
         userInfo.setPassword(password);
+        userInfo.setImg(img);
         userInfo.setRegistTime(System.currentTimeMillis());
         mapper.insert(userInfo);
     }

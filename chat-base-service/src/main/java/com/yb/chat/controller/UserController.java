@@ -10,6 +10,7 @@ import com.yb.chat.serivce.UserService;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,11 +36,13 @@ public class UserController implements UserServiceClient {
      * 注册
      * @param name 用户名
      * @param password 密码
+     * @param img 头像
      * @return
      */
     @Override
-    public ChatResult regist(String name, String password) {
-        userService.regist(name, password);
+    public ChatResult regist(@RequestParam("name") String name, @RequestParam("password") String password,
+                             @RequestParam("img") String img) {
+        userService.regist(name, password, img);
         return ChatResult.setContent(null);
     }
 }

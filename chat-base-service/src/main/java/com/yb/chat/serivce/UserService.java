@@ -3,10 +3,6 @@
  */
 package com.yb.chat.serivce;
 
-import com.yb.chat.client.response.UserResp;
-
-import java.util.List;
-
 /**
  * UserService:
  *
@@ -19,6 +15,7 @@ public interface UserService {
      * 注册
      * @param name 用户名
      * @param password 密码
+     * @param img 头像
      */
-    void regist(String name, String password);
+    void regist(String name, String password, String img);
 }

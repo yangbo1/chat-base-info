@@ -11,17 +11,39 @@ package com.yb.chat.client.response;
  * @since 2018/2/2 0002 17:29
  */
 public class ChatResult {
-    private static String code = "1";
+    private  String code;
 
-    private static String msg = "成功";
+    private  String msg;
 
     private Object content;
 
-    public ChatResult(Object content) {
+    public ChatResult(String code, String msg, Object content) {
+        this.code = code;
+        this.msg = msg;
         this.content = content;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Object getContent() {
+        return content;
+    }
+
     public static ChatResult setContent(Object content) {
-        return new ChatResult(content);
+        return new ChatResult("1","success", content);
     }
 }
