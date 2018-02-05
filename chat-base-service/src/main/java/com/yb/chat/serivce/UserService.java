@@ -3,6 +3,8 @@
  */
 package com.yb.chat.serivce;
 
+import com.yb.chat.entity.UserInfo;
+
 /**
  * UserService:
  *
@@ -17,5 +19,13 @@ public interface UserService {
      * @param password 密码
      * @param img 头像
      */
-    void regist(String name, String password, String img);
+    void register(String name, String password, String img);
+
+    /**
+     * 登陆
+     * @param name 用户名
+     * @param password 密码
+     * @return
+     */
+    Boolean login(String name, String password);
 }

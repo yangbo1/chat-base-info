@@ -40,9 +40,22 @@ public class UserController implements UserServiceClient {
      * @return
      */
     @Override
-    public ChatResult regist(@RequestParam("name") String name, @RequestParam("password") String password,
+    public ChatResult register(@RequestParam("name") String name, @RequestParam("password") String password,
                              @RequestParam("img") String img) {
-        userService.regist(name, password, img);
+        userService.register(name, password, img);
         return ChatResult.setContent(null);
     }
+
+    /**
+     * 登陆
+     * @param name 用户名
+     * @param password 密码
+     * @return
+     */
+    @Override
+    public ChatResult login(String name, String password) {
+        Boolean login = userService.login(name, password);
+        return ChatResult.setContent(login);
+    }
+
 }

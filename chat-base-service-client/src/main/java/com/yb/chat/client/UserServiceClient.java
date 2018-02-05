@@ -29,9 +29,18 @@ public interface UserServiceClient {
      * @param img 头像
      * @return
      */
-    @RequestMapping(value = "/regist", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @CrossOrigin("*")
-    Object regist(@RequestParam("name") String name, @RequestParam("password") String password,
+    Object register(@RequestParam("name") String name, @RequestParam("password") String password,
                       @RequestParam("img") String img);
 
+    /**
+     * 登陆
+     * @param name 用户名
+     * @param password 密码
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @CrossOrigin("*")
+    Object login(@RequestParam("name") String name, @RequestParam("password") String password);
 }

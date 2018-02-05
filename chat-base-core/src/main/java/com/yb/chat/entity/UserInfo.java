@@ -4,6 +4,7 @@
 package com.yb.chat.entity;
 
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * UserInfo:

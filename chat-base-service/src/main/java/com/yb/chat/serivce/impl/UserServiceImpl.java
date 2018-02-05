@@ -11,6 +11,7 @@ import com.yb.chat.serivce.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -35,12 +36,31 @@ public class UserServiceImpl implements UserService{
      * @param img 头像
      */
     @Override
-    public void regist(String name, String password, String img) {
+    public void register(String name, String password, String img) {
         UserInfo userInfo = new UserInfo();
         userInfo.setName(name);
         userInfo.setPassword(password);
         userInfo.setImg(img);
         userInfo.setRegistTime(System.currentTimeMillis());
         mapper.insert(userInfo);
+    }
+    /**
+     * 登陆
+     * @param name 用户名
+     * @param password 密码
+     * @return
+     */
+    @Override
+    public Boolean login(String name, String password) {
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("name", name);
+        criteria.andEqualTo("password", password);
+        List<UserInfo> userInfos = mapper.selectByExample(example);
+        if (!userInfos.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
