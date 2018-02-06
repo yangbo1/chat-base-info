@@ -39,7 +39,7 @@ import javax.websocket.server.ServerEndpoint;
  * @version 1.00
  * @since 2018/1/30 0030 16:28
  */
-@ServerEndpoint(value = "/chatServer/{userId}")
+@ServerEndpoint(value = "/chatServer/{userId}", configurator = HttpSessionConfigurator.class)
 @Component
 public class ChatServer {
     private static int onlineCount = 0; //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
@@ -50,10 +50,10 @@ public class ChatServer {
     /**
      * 给springboot启动类注入
      */
-    private static ApplicationContext applicationContext;
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        applicationContext = applicationContext;
-    }
+//    private static ApplicationContext applicationContext;
+//    public static void setApplicationContext(ApplicationContext applicationContext) {
+//        applicationContext = applicationContext;
+//    }
 
     /**
      * service
@@ -73,7 +73,11 @@ public class ChatServer {
         addOnlineCount();           //在线数加1;
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 //        this.userid=(String) httpSession.getAttribute("userid");    //获取当前用户
-        String userid = user;    //获取当前用户
+//        String userid = user;    //获取当前用户
+        String userid = (String) httpSession.getAttribute(user);//获取当前用户
+        if (userid == null) {
+            return;
+        }
 //        userService = applicationContext.getBean(UserService.class);
 //        List<UserResp> a = userService.findByName("a");
 //        System.out.println(a.toString());

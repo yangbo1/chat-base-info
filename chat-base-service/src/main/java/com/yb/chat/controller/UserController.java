@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import static com.yb.chat.client.UserServiceClient.PATH;
 
@@ -53,8 +54,11 @@ public class UserController implements UserServiceClient {
      * @return
      */
     @Override
-    public ChatResult login(String name, String password) {
+    public ChatResult login(HttpSession session, String name, String password) {
         Boolean login = userService.login(name, password);
+        if (login) {
+            session.setAttribute(name, name);
+        }
         return ChatResult.setContent(login);
     }
 
