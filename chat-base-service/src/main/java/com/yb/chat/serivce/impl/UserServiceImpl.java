@@ -3,12 +3,10 @@
  */
 package com.yb.chat.serivce.impl;
 
+import com.yb.chat.base.UserBase;
 import com.yb.chat.dao.UserInfoMapper;
-import com.yb.chat.dao.UserMapper;
-import com.yb.chat.entity.UserEntity;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
-import com.yb.common.entity.UserBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,7 +82,8 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public List<UserBase> friends(String id) {
+        System.out.println(id);
         List<UserBase> friends = mapper.findFriendsById(id);
-        return null;
+        return friends;
     }
 }

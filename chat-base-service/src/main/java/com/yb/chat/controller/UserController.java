@@ -3,6 +3,7 @@
  */
 package com.yb.chat.controller;
 
+import com.yb.chat.base.UserBase;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
@@ -57,13 +58,18 @@ public class UserController implements UserServiceClient {
      * @return
      */
     @Override
-    public ChatResult login(HttpServletRequest request, String name, String password) {
+    public ChatResult login(String name, String password) {
         UserInfo user = userService.login(name, password);
         if (user != null) {
 //            request.getSession().setAttribute(name, name);
             ChatServer.userInfoMap.put(name, user);
         }
         return ChatResult.setContent(user!=null);
+    }
+
+    @Override
+    public List<UserBase> findFriends(@PathVariable("id") String id) {
+        return userService.friends(id);
     }
 
 }

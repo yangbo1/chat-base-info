@@ -45,5 +45,15 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @CrossOrigin("*")
-    Object login(HttpServletRequest request,@RequestParam("name") String name, @RequestParam("password") String password);
+    Object login(@RequestParam("name") String name, @RequestParam("password") String password);
+
+
+    /**
+     * 查询好友
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/findFriendsById/{id}", method = RequestMethod.GET)
+    @CrossOrigin("*")
+    Object findFriends(@PathVariable("id") String id);
 }

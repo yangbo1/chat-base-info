@@ -3,9 +3,9 @@
  */
 package com.yb.chat.dao;
 
+import com.yb.chat.base.UserBase;
 import com.yb.chat.entity.UserInfo;
 import com.yb.common.dao.MyMapper;
-import com.yb.common.entity.UserBase;
 
 import java.util.List;
 

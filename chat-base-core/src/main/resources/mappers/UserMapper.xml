@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yb.chat.dao.UserMapper">
-
-    <select id="findFriendsById" resultType="com.yb.common.entity.UserBase" parameterType="String">
+<mapper namespace="com.yb.chat.dao.UserInfoMapper">
+    <select id="findFriendsById" resultType="com.yb.chat.base.UserBase" parameterType="String">
+        SELECT
+            c1.name,
+            c1.img,
+            c1.gender,
+            c1.remark
+        FROM
+            chat_base_info.user_info c1,
+            chat_base_info.friend_info c2
+        WHERE
+            c1.id != #{id}
+        AND(
+            c2.friend_a = #{id}
+        OR
+            c2.frined_b = #{id}
+        )
 
     </select>
 </mapper>

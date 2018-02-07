@@ -3,7 +3,8 @@
  */
 package com.yb.chat.entity;
 
-import com.yb.common.entity.UserBase;
+
+import com.yb.chat.base.UserBase;
 
 import javax.annotation.Generated;
 import javax.persistence.Column;
