@@ -6,7 +6,9 @@ package com.yb.chat.controller;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
+import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
+import com.yb.chat.server.ChatServer;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.yb.chat.client.UserServiceClient.PATH;
@@ -43,8 +46,8 @@ public class UserController implements UserServiceClient {
     @Override
     public ChatResult register(@RequestParam("name") String name, @RequestParam("password") String password,
                              @RequestParam("img") String img) {
-        userService.register(name, password, img);
-        return ChatResult.setContent(null);
+        boolean register = userService.register(name, password, img);
+        return ChatResult.setContent(register);
     }
 
     /**
@@ -54,12 +57,13 @@ public class UserController implements UserServiceClient {
      * @return
      */
     @Override
-    public ChatResult login(HttpSession session, String name, String password) {
-        Boolean login = userService.login(name, password);
-        if (login) {
-            session.setAttribute(name, name);
+    public ChatResult login(HttpServletRequest request, String name, String password) {
+        UserInfo user = userService.login(name, password);
+        if (user != null) {
+//            request.getSession().setAttribute(name, name);
+            ChatServer.userInfoMap.put(name, user);
         }
-        return ChatResult.setContent(login);
+        return ChatResult.setContent(user!=null);
     }
 
 }

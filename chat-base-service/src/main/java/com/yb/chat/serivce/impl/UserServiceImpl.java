@@ -8,9 +8,12 @@ import com.yb.chat.dao.UserMapper;
 import com.yb.chat.entity.UserEntity;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
+import com.yb.common.entity.UserBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
  * @since 2018/1/29 0029 15:06
  */
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService{
     /**
      * user
@@ -36,13 +40,22 @@ public class UserServiceImpl implements UserService{
      * @param img 头像
      */
     @Override
-    public void register(String name, String password, String img) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setName(name);
-        userInfo.setPassword(password);
-        userInfo.setImg(img);
-        userInfo.setRegistTime(System.currentTimeMillis());
-        mapper.insert(userInfo);
+    public boolean register(String name, String password, String img) {
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("name", name);
+        List<UserInfo> userInfos = mapper.selectByExample(example);
+        if (userInfos.isEmpty()) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName(name);
+            userInfo.setPassword(password);
+            userInfo.setImg(img);
+            userInfo.setRegistTime(System.currentTimeMillis());
+            mapper.insert(userInfo);
+            return true;
+        } else {
+            return false;
+        }
     }
     /**
      * 登陆
@@ -51,16 +64,27 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public Boolean login(String name, String password) {
+    public UserInfo login(String name, String password) {
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("name", name);
         criteria.andEqualTo("password", password);
         List<UserInfo> userInfos = mapper.selectByExample(example);
         if (!userInfos.isEmpty()) {
-            return true;
+            return userInfos.get(0);
         } else {
-            return false;
+            return null;
         }
+    }
+    /**
+     * 查询好友
+     * @param id id
+     *
+     * @return 好友列表
+     */
+    @Override
+    public List<UserBase> friends(String id) {
+        List<UserBase> friends = mapper.findFriendsById(id);
+        return null;
     }
 }

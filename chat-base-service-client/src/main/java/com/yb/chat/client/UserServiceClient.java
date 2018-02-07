@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.yb.chat.client.UserServiceClient.PATH;
@@ -44,5 +45,5 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @CrossOrigin("*")
-    Object login(HttpSession session,@RequestParam("name") String name, @RequestParam("password") String password);
+    Object login(HttpServletRequest request,@RequestParam("name") String name, @RequestParam("password") String password);
 }

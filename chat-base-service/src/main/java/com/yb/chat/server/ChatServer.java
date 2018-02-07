@@ -6,10 +6,14 @@ package com.yb.chat.server;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yb.chat.client.response.UserResp;
+import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -59,7 +63,7 @@ public class ChatServer {
      * service
      */
     private UserService userService;
-
+    public static Map<String, UserInfo> userInfoMap = new HashMap<>();
     private static List list = new ArrayList<>();   //在线列表,记录用户名称
     private static Map routetab = new HashMap<>();  //用户名和websocket的session绑定的路由表
     /**
@@ -69,23 +73,28 @@ public class ChatServer {
     @OnOpen
     public void onOpen(@PathParam("userId") String user, Session session, EndpointConfig config){
         this.session = session;
-        webSocketSet.add(this);     //加入set中
-        addOnlineCount();           //在线数加1;
-        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+
+//        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 //        this.userid=(String) httpSession.getAttribute("userid");    //获取当前用户
 //        String userid = user;    //获取当前用户
-        String userid = (String) httpSession.getAttribute(user);//获取当前用户
+//        String userid = (String) httpSession.getAttribute(user);//获取当前用户
+        UserInfo userInfo = userInfoMap.get(user);
+        String userid = userInfo.getName();
         if (userid == null) {
             return;
+        } else {
+            webSocketSet.add(this);     //加入set中
+            addOnlineCount();           //在线数加1;
+            list.add(userid);           //将用户名加入在线列表
+            routetab.put(userid, session);   //将用户名和session绑定到路由表
+            userInfoMap.remove(user);
+            String message = getMessage("[" + userid + "]上线,当前在线人数为"+getOnlineCount()+"位", "notice",  list);
+            broadcast(message);     //广播
         }
 //        userService = applicationContext.getBean(UserService.class);
 //        List<UserResp> a = userService.findByName("a");
 //        System.out.println(a.toString());
 
-        list.add(userid);           //将用户名加入在线列表
-        routetab.put(userid, session);   //将用户名和session绑定到路由表
-        String message = getMessage("[" + userid + "]上线,当前在线人数为"+getOnlineCount()+"位", "notice",  list);
-        broadcast(message);     //广播
     }
 
     /**
@@ -98,8 +107,8 @@ public class ChatServer {
         subOnlineCount();           //在线数减1
         list.remove(userid);        //从在线列表移除这个用户
         routetab.remove(userid);
-        String message = getMessage("[" + userid +"]下线,当前在线人数为"+getOnlineCount()+"位", "notice", list);
-        broadcast(message);         //广播
+        String message = getMessage("[" + userid + "]下线,当前在线人数为" + getOnlineCount() + "位", "notice", list);
+        broadcast(message);//广播
     }
 
     /**

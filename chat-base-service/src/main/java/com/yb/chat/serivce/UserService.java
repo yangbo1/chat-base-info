@@ -4,6 +4,9 @@
 package com.yb.chat.serivce;
 
 import com.yb.chat.entity.UserInfo;
+import com.yb.common.entity.UserBase;
+
+import java.util.List;
 
 /**
  * UserService:
@@ -19,7 +22,7 @@ public interface UserService {
      * @param password 密码
      * @param img 头像
      */
-    void register(String name, String password, String img);
+    boolean register(String name, String password, String img);
 
     /**
      * 登陆
@@ -27,5 +30,13 @@ public interface UserService {
      * @param password 密码
      * @return
      */
-    Boolean login(String name, String password);
+    UserInfo login(String name, String password);
+
+    /**
+     * 查询好友
+     * @param id id
+     *
+     * @return 好友列表
+     */
+    List<UserBase> friends(String id);
 }
