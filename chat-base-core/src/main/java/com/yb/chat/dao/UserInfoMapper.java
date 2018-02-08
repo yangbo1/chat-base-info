@@ -7,7 +7,12 @@ import com.yb.chat.base.UserBase;
 import com.yb.chat.entity.UserInfo;
 import com.yb.common.dao.MyMapper;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 /**
  * UserInfoMapper:
@@ -23,5 +28,5 @@ public interface UserInfoMapper extends MyMapper<UserInfo> {
      *
      * @return
      */
-    List<UserBase> findFriendsById(String id);
+    List<UserBase> findFriendsById(@Param("id") String id);
 }

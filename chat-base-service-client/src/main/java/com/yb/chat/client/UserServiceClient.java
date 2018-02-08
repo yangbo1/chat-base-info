@@ -23,6 +23,7 @@ import static com.yb.chat.client.UserServiceClient.PATH;
  * @since 2018/1/24 0024 17:55
  */
 @FeignClient(path = PATH)
+@CrossOrigin("*")
 public interface UserServiceClient {
     String PATH = "service/v1/user";
     /**
@@ -33,7 +34,6 @@ public interface UserServiceClient {
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @CrossOrigin("*")
     Object register(@RequestParam("name") String name, @RequestParam("password") String password,
                       @RequestParam("img") String img);
 
@@ -44,7 +44,6 @@ public interface UserServiceClient {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @CrossOrigin("*")
     Object login(@RequestParam("name") String name, @RequestParam("password") String password);
 
 
@@ -54,6 +53,5 @@ public interface UserServiceClient {
      * @return
      */
     @RequestMapping(value = "/findFriendsById/{id}", method = RequestMethod.GET)
-    @CrossOrigin("*")
     Object findFriends(@PathVariable("id") String id);
 }

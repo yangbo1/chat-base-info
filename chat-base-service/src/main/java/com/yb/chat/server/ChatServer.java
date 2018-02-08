@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,16 +66,16 @@ public class ChatServer {
      */
     private UserService userService;
     public static Map<String, UserInfo> userInfoMap = new HashMap<>();
-    private static List list = new ArrayList<>();   //在线列表,记录用户名称
+        private static List list = new ArrayList<>();   //在线列表,记录用户名称
     private static Map routetab = new HashMap<>();  //用户名和websocket的session绑定的路由表
     /**
      * 连接建立成功调用的方法
      * @param session  可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
     @OnOpen
-    public void onOpen(@PathParam("userId") String user, Session session, EndpointConfig config){
+    public void onOpen(@PathParam("userId") String user, Session session, EndpointConfig config) throws UnsupportedEncodingException {
         this.session = session;
-
+        user = new String(user.getBytes("ISO-8859-1"), "UTF-8");
 //        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 //        this.userid=(String) httpSession.getAttribute("userid");    //获取当前用户
 //        String userid = user;    //获取当前用户
@@ -81,7 +83,7 @@ public class ChatServer {
         UserInfo userInfo = userInfoMap.get(user);
         String userid = userInfo.getName();
         if (userid == null) {
-            return;
+            return ;
         } else {
             webSocketSet.add(this);     //加入set中
             addOnlineCount();           //在线数加1;
@@ -89,7 +91,12 @@ public class ChatServer {
             routetab.put(userid, session);   //将用户名和session绑定到路由表
             userInfoMap.remove(user);
             String message = getMessage("[" + userid + "]上线,当前在线人数为"+getOnlineCount()+"位", "notice",  list);
-            broadcast(message);     //广播
+            broadcast(message);//广播
+            Map<String,String> map = new HashMap<>();
+            map.put("id", userInfo.getId());
+            map.put("img", userInfo.getImg());
+            map.put("type", "id");
+            singleSend(JSONObject.toJSONString(map), (Session) routetab.get(userid));
         }
 //        userService = applicationContext.getBean(UserService.class);
 //        List<UserResp> a = userService.findByName("a");

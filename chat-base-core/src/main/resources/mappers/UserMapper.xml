@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yb.chat.dao.UserInfoMapper">
-    <select id="findFriendsById" resultType="com.yb.chat.base.UserBase" parameterType="String">
+    <resultMap id="friends" type="com.yb.chat.base.UserBase">
+        <result property="name" column="name" jdbcType="VARCHAR"></result>
+        <result property="img" column="img" jdbcType="VARCHAR"></result>
+        <result property="remark" column="remark" jdbcType="VARCHAR"></result>
+        <result property="gender" column="gender" jdbcType="TINYINT"></result>
+    </resultMap>
+    <select id="findFriendsById" resultMap="friends" parameterType="String">
         SELECT
             c1.name,
             c1.img,
@@ -16,6 +22,10 @@
             c2.friend_a = #{id}
         OR
             c2.frined_b = #{id}
+        )
+        AND (
+            c1.id = c2.friend_a
+            OR c1.id = c2.frined_b
         )
 
     </select>
