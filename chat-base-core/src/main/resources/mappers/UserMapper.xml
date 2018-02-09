@@ -14,19 +14,8 @@
             c1.gender,
             c1.remark
         FROM
-            chat_base_info.user_info c1,
-            chat_base_info.friend_info c2
+            chat_base_info.user_info c1
         WHERE
             c1.id != #{id}
-        AND(
-            c2.friend_a = #{id}
-        OR
-            c2.frined_b = #{id}
-        )
-        AND (
-            c1.id = c2.friend_a
-            OR c1.id = c2.frined_b
-        )
-
     </select>
 </mapper>

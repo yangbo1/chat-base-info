@@ -75,7 +75,6 @@ public class ChatServer {
     @OnOpen
     public void onOpen(@PathParam("userId") String user, Session session, EndpointConfig config) throws UnsupportedEncodingException {
         this.session = session;
-        user = new String(user.getBytes("ISO-8859-1"), "UTF-8");
 //        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 //        this.userid=(String) httpSession.getAttribute("userid");    //获取当前用户
 //        String userid = user;    //获取当前用户
