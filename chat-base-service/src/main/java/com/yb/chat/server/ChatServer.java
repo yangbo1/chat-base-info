@@ -90,7 +90,7 @@ public class ChatServer {
             routetab.put(userid, session);   //将用户名和session绑定到路由表
             userInfoMap.remove(user);
             String message = getMessage("[" + userid + "]上线,当前在线人数为"+getOnlineCount()+"位", "notice",  list);
-            broadcast(message);//广播
+//            broadcast(message);//广播
             Map<String,String> map = new HashMap<>();
             map.put("id", userInfo.getId());
             map.put("img", userInfo.getImg());
@@ -114,7 +114,7 @@ public class ChatServer {
         list.remove(userid);        //从在线列表移除这个用户
         routetab.remove(userid);
         String message = getMessage("[" + userid + "]下线,当前在线人数为" + getOnlineCount() + "位", "notice", list);
-        broadcast(message);//广播
+//        broadcast(message);//广播
     }
 
     /**
