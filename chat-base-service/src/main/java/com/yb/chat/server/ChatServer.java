@@ -132,7 +132,9 @@ public class ChatServer {
             singleSend(_message, (Session) routetab.get(message.get("from")));      //发送给自己,这个别忘了
             for(String user : userlist){
                 if(!user.equals(message.get("from"))){
-                    singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+                    if (routetab.get(user) != null) {
+                        singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+                    }
                 }
             }
         }

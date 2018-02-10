@@ -89,11 +89,6 @@
 			<artifactId>chat-base-service-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-        <dependency>
-            <groupId>com.yb.chat</groupId>
-            <artifactId>chat</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 
