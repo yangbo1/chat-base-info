@@ -39,4 +39,11 @@ public interface UserService {
      * @return 好友列表
      */
     List<UserBase> friends(String id);
+    /**
+     * 查询好友
+     * @param self 自己
+     * @param online 在线的
+     * @return
+     */
+    List<UserBase> friends(String self, String[] online);
 }

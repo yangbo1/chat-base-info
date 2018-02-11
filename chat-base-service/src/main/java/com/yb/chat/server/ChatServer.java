@@ -91,11 +91,13 @@ public class ChatServer {
             userInfoMap.remove(user);
             String message = getMessage("[" + userid + "]上线,当前在线人数为"+getOnlineCount()+"位", "notice",  list);
 //            broadcast(message);//广播
-            Map<String,String> map = new HashMap<>();
+            Map<String,Object> map = new HashMap<>();
             map.put("id", userInfo.getId());
             map.put("img", userInfo.getImg());
+            map.put("online", list);
             map.put("type", "id");
-            singleSend(JSONObject.toJSONString(map), (Session) routetab.get(userid));
+//            singleSend(JSONObject.toJSONString(map), (Session) routetab.get(userid));
+            broadcast(JSONObject.toJSONString(map));
         }
 //        userService = applicationContext.getBean(UserService.class);
 //        List<UserResp> a = userService.findByName("a");
@@ -113,8 +115,10 @@ public class ChatServer {
         subOnlineCount();           //在线数减1
         list.remove(userid);        //从在线列表移除这个用户
         routetab.remove(userid);
-        String message = getMessage("[" + userid + "]下线,当前在线人数为" + getOnlineCount() + "位", "notice", list);
+//        String message = getMessage("[" + userid + "]下线,当前在线人数为" + getOnlineCount() + "位", "notice", list);
 //        broadcast(message);//广播
+        String message = getMessage( userid, "off", null);
+        broadcast(message);
     }
 
     /**

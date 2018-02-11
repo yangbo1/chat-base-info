@@ -4,6 +4,7 @@
 package com.yb.chat.serivce.impl;
 
 import com.yb.chat.base.UserBase;
+import com.yb.chat.convert.ChatConvert;
 import com.yb.chat.dao.UserInfoMapper;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -85,5 +87,23 @@ public class UserServiceImpl implements UserService{
         System.out.println(id);
         List<UserBase> friends = mapper.findFriendsById(id);
         return friends;
+    }
+    /**
+     * 查询好友
+     * @param self 自己
+     * @param online 在线的
+     * @return
+     */
+    @Override
+    public List<UserBase> friends(String self, String[] online) {
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (online == null) {
+            return null;
+        }
+        criteria.andIn("name", Arrays.asList(online));
+        criteria.andNotEqualTo("name", self);
+        List<UserInfo> userInfos = mapper.selectByExample(example);
+        return ChatConvert.convertUserListToResp(userInfos);
     }
 }

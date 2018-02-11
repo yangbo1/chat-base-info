@@ -54,4 +54,13 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "/findFriendsById/{id}", method = RequestMethod.GET)
     Object findFriends(@PathVariable("id") String id);
+
+    /**
+     * 查询好友
+     * @param self 自己
+     * @param online 在线的
+     * @return
+     */
+    @RequestMapping(value = "/findFriendsByName", method = RequestMethod.POST)
+    Object findFriends(@RequestParam("online") String[] online, @RequestParam("self") String self);
 }

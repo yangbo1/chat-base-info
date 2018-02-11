@@ -66,10 +66,25 @@ public class UserController implements UserServiceClient {
         }
         return ChatResult.setContent(user!=null);
     }
-
+    /**
+     * 查询好友
+     * @param id
+     * @return
+     */
     @Override
     public List<UserBase> findFriends(@PathVariable("id") String id) {
         return userService.friends(id);
+    }
+    /**
+     * 查询好友
+     * @param self 自己
+     * @param online 在线的
+     * @return
+     */
+    @Override
+    public List<UserBase> findFriends( String[] online, String self) {
+
+        return userService.friends(self, online);
     }
 
 }
