@@ -7,6 +7,7 @@ import com.yb.chat.base.UserBase;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
+import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 import com.yb.chat.server.ChatServer;
@@ -85,6 +86,18 @@ public class UserController implements UserServiceClient {
     public List<UserBase> findFriends( String[] online, String self) {
 
         return userService.friends(self, online);
+    }
+    /**
+     * 查询聊天记录
+     * @param userA
+     * @param userB
+     * @param pageIndex 分页
+     *
+     * @return
+     */
+    @Override
+    public List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex) {
+        return userService.findChatMessage(userA, userB, pageIndex);
     }
 
 }

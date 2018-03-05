@@ -6,6 +6,8 @@ package com.yb.chat.dao;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.common.dao.MyMapper;
 
+import java.util.List;
+
 /**
  * ChatMessageMapper:
  *
@@ -14,4 +16,5 @@ import com.yb.common.dao.MyMapper;
  * @since 2018/3/5 0005 11:46
  */
 public interface ChatMessageMapper extends MyMapper<ChatMessage> {
+
 }

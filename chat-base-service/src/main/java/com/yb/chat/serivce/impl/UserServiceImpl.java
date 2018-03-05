@@ -179,4 +179,16 @@ public class UserServiceImpl implements UserService{
             chatMessageMapper.insert(message);
         }
     }
+    /**
+     * 查询聊天记录
+     * @param userA
+     * @param userB
+     * @param pageIndex 分页
+     *
+     * @return
+     */
+    @Override
+    public List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex) {
+        return mapper.findChatMessage(userA, userB);
+    }
 }

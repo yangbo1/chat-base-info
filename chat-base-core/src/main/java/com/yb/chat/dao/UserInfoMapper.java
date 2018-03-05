@@ -4,6 +4,7 @@
 package com.yb.chat.dao;
 
 import com.yb.chat.base.UserBase;
+import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 import com.yb.common.dao.MyMapper;
 
@@ -29,4 +30,13 @@ public interface UserInfoMapper extends MyMapper<UserInfo> {
      * @return
      */
     List<UserBase> findFriendsById(@Param("id") String id);
+
+    /**
+     * 加载聊天记录
+     * @param userA
+     * @param userB
+     *
+     * @return
+     */
+    List<ChatMessage> findChatMessage(@Param("userA") String userA, @Param("userB") String userB);
 }

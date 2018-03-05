@@ -18,4 +18,21 @@
         WHERE
             c1.id != #{id}
     </select>
+    <select id="findChatMessage" resultType="com.yb.chat.entity.ChatMessage" parameterType="String">
+        SELECT
+            *
+        FROM
+            chat_base_info.chat_message c
+        WHERE
+            (c.user_a = #{userA}
+        AND
+            c.user_b = #{userB}
+        )
+        OR
+            (c.user_a = #{userB}
+        AND
+            c.user_b = #{userA}
+        )
+        ORDER BY c.time
+    </select>
 </mapper>

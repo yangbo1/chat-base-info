@@ -63,4 +63,16 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "/findFriendsByName", method = RequestMethod.POST)
     Object findFriends(@RequestParam("online") String[] online, @RequestParam("self") String self);
+
+    /**
+     * 查询聊天记录
+     * @param userA
+     * @param userB
+     * @param pageIndex 分页
+     *
+     * @return
+     */
+    @RequestMapping(value = "/findChatMessage", method = RequestMethod.POST)
+    Object findChatMessage(@RequestParam("userA") String userA, @RequestParam("userB") String userB,
+            @RequestParam("pageIndex") Integer pageIndex);
 }

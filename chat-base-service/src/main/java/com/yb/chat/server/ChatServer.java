@@ -159,7 +159,12 @@ public class ChatServer {
             for(String user : userlist){
                 if(!user.equals(message.get("from"))){
                     if (routetab.get(user) != null) {
+
                         singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+                        //保存聊天记录
+                        chatMessage.setUserB(message.get("to").toString());
+                        userService.saveChatMessage(chatMessage);
+                    } else {
                         //保存聊天记录
                         chatMessage.setUserB(message.get("to").toString());
                         userService.saveChatMessage(chatMessage);

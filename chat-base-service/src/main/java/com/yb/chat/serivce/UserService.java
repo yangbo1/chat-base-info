@@ -71,4 +71,13 @@ public interface UserService {
      * @param message
      */
     void saveChatMessage(ChatMessage message);
+    /**
+     * 查询聊天记录
+     * @param userA
+     * @param userB
+     * @param pageIndex 分页
+     *
+     * @return
+     */
+    List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex);
 }
