@@ -15,6 +15,8 @@ import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.ContextLoader;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -56,11 +58,12 @@ public class ChatServer {
     /**
      * 给springboot启动类注入
      */
-//    private static ApplicationContext applicationContext;
-//    public static void setApplicationContext(ApplicationContext applicationContext) {
-//        applicationContext = applicationContext;
-//    }
-
+    private static ApplicationContext applicationContext;
+    public static void setApplicationContext(ApplicationContext context) {
+        applicationContext = context;
+    }
+//    @Resource(name = "userService")
+//    private UserService userService;
     /**
      * service
      */
@@ -74,6 +77,9 @@ public class ChatServer {
      */
     @OnOpen
     public void onOpen(@PathParam("userId") String user, Session session, EndpointConfig config) throws UnsupportedEncodingException {
+        if (userService == null) {
+            userService = (UserService) applicationContext.getBean("userService");
+        }
         this.session = session;
 //        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 //        this.userid=(String) httpSession.getAttribute("userid");    //获取当前用户
@@ -110,15 +116,22 @@ public class ChatServer {
      */
     @OnClose
     public void onClose(@PathParam("userId") String user){
+        if (userService == null) {
+            userService = (UserService) applicationContext.getBean("userService");
+        }
         String userid = user;
-        webSocketSet.remove(this);  //从set中删除
-        subOnlineCount();           //在线数减1
-        list.remove(userid);        //从在线列表移除这个用户
-        routetab.remove(userid);
+        if (webSocketSet.contains(this)) {
+            webSocketSet.remove(this);  //从set中删除
+            subOnlineCount();           //在线数减1
+            list.remove(userid);        //从在线列表移除这个用户
+            routetab.remove(userid);
 //        String message = getMessage("[" + userid + "]下线,当前在线人数为" + getOnlineCount() + "位", "notice", list);
 //        broadcast(message);//广播
-        String message = getMessage( userid, "off", null);
-        broadcast(message);
+            userService.logout(userid);
+            String message = getMessage( userid, "off", null);
+            broadcast(message);
+        }
+
     }
 
     /**
@@ -127,6 +140,9 @@ public class ChatServer {
      */
     @OnMessage
     public void onMessage(String _message) {
+        if (userService == null) {
+            userService = (UserService) applicationContext.getBean("userService");
+        }
         JSONObject chat = JSON.parseObject(_message);
         JSONObject message = JSON.parseObject(chat.get("message").toString());
         if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息

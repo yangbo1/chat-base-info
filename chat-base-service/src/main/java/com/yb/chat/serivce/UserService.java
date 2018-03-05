@@ -46,4 +46,23 @@ public interface UserService {
      * @return
      */
     List<UserBase> friends(String self, String[] online);
+
+    /**
+     * 登陆记录
+     * @param name 用户名
+     */
+    void login(String name);
+
+    /**
+     * 登出记录
+     * @param name
+     */
+    void logout(String name);
+    /**
+     * 查询信息
+     * @param name 用户名
+     *
+     * @return
+     */
+    UserInfo findSelf(String name);
 }

@@ -5,9 +5,12 @@ package com.yb.chat.serivce.impl;
 
 import com.yb.chat.base.UserBase;
 import com.yb.chat.convert.ChatConvert;
+import com.yb.chat.dao.LogInfoMapper;
 import com.yb.chat.dao.UserInfoMapper;
+import com.yb.chat.entity.LogInfo;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
+import com.yb.common.contants.ChatContants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,11 @@ public class UserServiceImpl implements UserService{
      */
     @Autowired
     private UserInfoMapper mapper;
+    /**
+     * 操作记录
+     */
+    @Autowired
+    private LogInfoMapper logInfoMapper;
     /**
      * 注册
      * @param name 用户名
@@ -71,6 +79,7 @@ public class UserServiceImpl implements UserService{
         criteria.andEqualTo("password", password);
         List<UserInfo> userInfos = mapper.selectByExample(example);
         if (!userInfos.isEmpty()) {
+            login(name);
             return userInfos.get(0);
         } else {
             return null;
@@ -105,5 +114,52 @@ public class UserServiceImpl implements UserService{
         criteria.andNotEqualTo("name", self);
         List<UserInfo> userInfos = mapper.selectByExample(example);
         return ChatConvert.convertUserListToResp(userInfos);
+    }
+    /**
+     * 登陆记录
+     * @param name 用户名
+     */
+    @Override
+    public void login(String name) {
+        UserInfo userInfo = findSelf(name);
+        LogInfo logInfo;
+        if (userInfo != null) {
+            logInfo = new LogInfo();
+            logInfo.setUserId(userInfo.getId());
+            logInfo.setUserName(userInfo.getName());
+            logInfo.setType(ChatContants.LOG_LOGIN);
+            logInfo.setTime(System.currentTimeMillis());
+            logInfoMapper.insert(logInfo);
+        }
+    }
+    /**
+     * 登出记录
+     * @param name
+     */
+    @Override
+    public void logout(String name) {
+        UserInfo userInfo = findSelf(name);
+        LogInfo logInfo;
+        if (userInfo != null) {
+            logInfo = new LogInfo();
+            logInfo.setUserId(userInfo.getId());
+            logInfo.setUserName(userInfo.getName());
+            logInfo.setType(ChatContants.LOG_LOGOUT);
+            logInfo.setTime(System.currentTimeMillis());
+            logInfoMapper.insert(logInfo);
+        }
+    }
+
+    @Override
+    public UserInfo findSelf(String name) {
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("name", name);
+        List<UserInfo> userInfos = mapper.selectByExample(example);
+        if (!userInfos.isEmpty()) {
+            return userInfos.get(0);
+        }else {
+            return null;
+        }
     }
 }

@@ -18,7 +18,7 @@ public class ChatBaseServiceApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext run = SpringApplication.run(ChatBaseServiceApplication.class, args);
-//		ChatServer.setApplicationContext(run);
+		ChatServer.setApplicationContext(run);
 	}
 	@Autowired
 	private RequestListener requestListener;
