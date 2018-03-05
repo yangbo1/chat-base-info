@@ -4,6 +4,7 @@
 package com.yb.chat.serivce;
 
 import com.yb.chat.base.UserBase;
+import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 
 import java.util.List;
@@ -65,4 +66,9 @@ public interface UserService {
      * @return
      */
     UserInfo findSelf(String name);
+
+    /**保存聊天记录
+     * @param message
+     */
+    void saveChatMessage(ChatMessage message);
 }

@@ -5,8 +5,10 @@ package com.yb.chat.serivce.impl;
 
 import com.yb.chat.base.UserBase;
 import com.yb.chat.convert.ChatConvert;
+import com.yb.chat.dao.ChatMessageMapper;
 import com.yb.chat.dao.LogInfoMapper;
 import com.yb.chat.dao.UserInfoMapper;
+import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.LogInfo;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
@@ -41,6 +43,12 @@ public class UserServiceImpl implements UserService{
      */
     @Autowired
     private LogInfoMapper logInfoMapper;
+
+    /**
+     * 聊天记录
+     */
+    @Autowired
+    private ChatMessageMapper chatMessageMapper;
     /**
      * 注册
      * @param name 用户名
@@ -110,7 +118,7 @@ public class UserServiceImpl implements UserService{
         if (online == null) {
             return null;
         }
-        criteria.andIn("name", Arrays.asList(online));
+//        criteria.andIn("name", Arrays.asList(online));
         criteria.andNotEqualTo("name", self);
         List<UserInfo> userInfos = mapper.selectByExample(example);
         return ChatConvert.convertUserListToResp(userInfos);
@@ -160,6 +168,15 @@ public class UserServiceImpl implements UserService{
             return userInfos.get(0);
         }else {
             return null;
+        }
+    }
+    /**保存聊天记录
+     * @param message
+     */
+    @Override
+    public void saveChatMessage(ChatMessage message) {
+        if (message != null) {
+            chatMessageMapper.insert(message);
         }
     }
 }

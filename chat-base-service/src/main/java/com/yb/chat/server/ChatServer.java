@@ -6,6 +6,7 @@ package com.yb.chat.server;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yb.chat.client.response.UserResp;
+import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 
@@ -145,6 +146,11 @@ public class ChatServer {
         }
         JSONObject chat = JSON.parseObject(_message);
         JSONObject message = JSON.parseObject(chat.get("message").toString());
+        //定义聊天类
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setUserA(message.get("from").toString());
+        chatMessage.setChatMessage(_message);
+        chatMessage.setTime((Long) message.get("time"));
         if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
             broadcast(_message);
         }else{
@@ -154,6 +160,9 @@ public class ChatServer {
                 if(!user.equals(message.get("from"))){
                     if (routetab.get(user) != null) {
                         singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+                        //保存聊天记录
+                        chatMessage.setUserB(message.get("to").toString());
+                        userService.saveChatMessage(chatMessage);
                     }
                 }
             }
