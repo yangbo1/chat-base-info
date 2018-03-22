@@ -3,16 +3,17 @@
  */
 package com.yb.chat.controller;
 
-import com.yb.chat.base.UserBase;
+import com.yb.chat.client.base.UserBase;
+import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
-import com.yb.chat.client.response.UserResp;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 import com.yb.chat.server.ChatServer;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static com.yb.chat.client.UserServiceClient.PATH;
 
@@ -98,6 +97,26 @@ public class UserController implements UserServiceClient {
     @Override
     public List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex) {
         return userService.findChatMessage(userA, userB, pageIndex);
+    }
+    /**
+     * 查询用户详细信息
+     * @param user
+     *
+     * @return
+     */
+    @Override
+    public UserBaseInfo findInfo(@PathVariable("user") String user) {
+        return userService.findInfo(user);
+    }
+    /**
+     * 修改个人信息
+     * @param userBaseInfo
+     *
+     * @return
+     */
+    @Override
+    public String editInfo(@RequestBody UserBaseInfo userBaseInfo) {
+        return userService.editInfo(userBaseInfo);
     }
 
 }

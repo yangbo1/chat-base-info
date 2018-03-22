@@ -2,6 +2,7 @@ package com.yb.chat.client; /**
  * Copyright (c) 2014-2018  墨博云舟 All Rights Reserved.
  */
 
+import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.response.ChatResult;
 import com.yb.chat.client.response.UserResp;
 
@@ -75,4 +76,22 @@ public interface UserServiceClient {
     @RequestMapping(value = "/findChatMessage", method = RequestMethod.POST)
     Object findChatMessage(@RequestParam("userA") String userA, @RequestParam("userB") String userB,
             @RequestParam("pageIndex") Integer pageIndex);
+
+    /**
+     * 查询用户详细信息
+     * @param user
+     *
+     * @return
+     */
+    @RequestMapping(value = "/findInfo/{user}", method = RequestMethod.GET)
+    Object findInfo(@PathVariable("user") String user);
+
+    /**
+     * 修改个人信息
+     * @param userBaseInfo
+     *
+     * @return
+     */
+    @RequestMapping(value = "/editInfo", method = RequestMethod.POST)
+    Object editInfo(@RequestBody UserBaseInfo userBaseInfo);
 }

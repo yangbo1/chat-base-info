@@ -4,14 +4,11 @@
 package com.yb.chat.entity;
 
 
-import com.yb.chat.base.UserBase;
+import com.yb.chat.client.base.UserBaseInfo;
 
-import javax.annotation.Generated;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * UserInfo:
@@ -21,7 +18,7 @@ import javax.persistence.UniqueConstraint;
  * @since 2018/2/2 0002 17:11
  */
 @Table(name = "user_info", schema = "chat_base_info")
-public class UserInfo extends UserBase {
+public class UserInfo extends UserBaseInfo {
     /**
      * id
      */

@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2014-2018  墨博云舟 All Rights Reserved.
  */
-package com.yb.chat.base;
+package com.yb.chat.client.base;
 
 /**
  * UserBase:
@@ -29,7 +29,9 @@ public class UserBase {
     /**
      * 性别
      */
-    private Integer gender;
+    private String gender;
+
+
 
     public String getName() {
         return name;
@@ -55,11 +57,13 @@ public class UserBase {
         this.remark = remark;
     }
 
-    public Integer getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
+
+
 }

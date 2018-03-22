@@ -3,9 +3,8 @@
  */
 package com.yb.chat.convert;
 
-import com.yb.chat.base.UserBase;
-import com.yb.chat.client.response.UserResp;
-import com.yb.chat.entity.UserEntity;
+import com.yb.chat.client.base.UserBase;
+import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.entity.UserInfo;
 
 import java.util.ArrayList;
@@ -42,4 +41,24 @@ public class ChatConvert {
             return null;
         }
     }
+
+    public static UserBaseInfo convertUserToUserBaseInfo(UserInfo userInfo) {
+        if (userInfo != null) {
+            UserBaseInfo baseInfo = new UserBaseInfo();
+            baseInfo.setCareer(userInfo.getCareer());
+            baseInfo.setJobAddress(userInfo.getJobAddress());
+            baseInfo.setPhone(userInfo.getPhone());
+            baseInfo.setRealName(userInfo.getRealName());
+            baseInfo.setSchool(userInfo.getSchool());
+            baseInfo.setWechat(userInfo.getWechat());
+            baseInfo.setGender(userInfo.getGender());
+            baseInfo.setRemark(userInfo.getRemark());
+            baseInfo.setImg(userInfo.getImg());
+            baseInfo.setName(userInfo.getName());
+            return baseInfo;
+        } else {
+            return null;
+        }
+    }
+
 }

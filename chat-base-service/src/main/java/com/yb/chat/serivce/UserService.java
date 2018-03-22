@@ -3,7 +3,8 @@
  */
 package com.yb.chat.serivce;
 
-import com.yb.chat.base.UserBase;
+import com.yb.chat.client.base.UserBase;
+import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 
@@ -80,4 +81,26 @@ public interface UserService {
      * @return
      */
     List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex);
+    /**
+     * 查询用户详细信息
+     * @param user
+     *
+     * @return
+     */
+    UserBaseInfo findInfo(String user);
+    /**
+     * 修改个人信息
+     * @param userBaseInfo
+     *
+     * @return
+     */
+    String editInfo(UserBaseInfo userBaseInfo);
+
+    /**
+     * 查询好友
+     * @param name name
+     *
+     * @return 好友列表
+     */
+    List<UserInfo> friendsByName(String name);
 }

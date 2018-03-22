@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yb.chat.dao.UserInfoMapper">
-    <resultMap id="friends" type="com.yb.chat.base.UserBase">
+    <resultMap id="friends" type="com.yb.chat.client.base.UserBase">
         <result property="name" column="name" jdbcType="VARCHAR"></result>
         <result property="img" column="img" jdbcType="VARCHAR"></result>
         <result property="remark" column="remark" jdbcType="VARCHAR"></result>
@@ -33,6 +33,16 @@
         AND
             c.user_b = #{userA}
         )
+        ORDER BY c.time
+    </select>
+
+    <select id="findChatMessageGroup" resultType="com.yb.chat.entity.ChatMessage" parameterType="String">
+        SELECT
+        *
+        FROM
+        chat_base_info.chat_message c
+        WHERE
+        c.user_b = #{userB}
         ORDER BY c.time
     </select>
 </mapper>

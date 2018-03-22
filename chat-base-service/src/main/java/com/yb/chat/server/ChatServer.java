@@ -151,8 +151,25 @@ public class ChatServer {
         chatMessage.setUserA(message.get("from").toString());
         chatMessage.setChatMessage(_message);
         chatMessage.setTime((Long) message.get("time"));
-        if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
+        if(message.get("to") == null || message.get("to").equals("群聊")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
             broadcast(_message);
+//            singleSend(_message, (Session) routetab.get(message.get("from")));      //发送给自己,这个别忘了
+//            List<UserInfo> users = userService.friendsByName(message.get("from").toString());
+
+//            for(UserInfo userInfo : users){
+//                String user = userInfo.getName();
+//                if(!user.equals(message.get("from"))){
+//                    if (routetab.get(user) != null) {
+//
+//                        singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+//
+//                    }
+//                }
+//            }
+
+            //保存聊天记录
+            chatMessage.setUserB(message.get("to").toString());
+            userService.saveChatMessage(chatMessage);
         }else{
             String [] userlist = message.get("to").toString().split(",");
             singleSend(_message, (Session) routetab.get(message.get("from")));      //发送给自己,这个别忘了

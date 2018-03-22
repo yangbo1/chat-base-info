@@ -3,7 +3,8 @@
  */
 package com.yb.chat.serivce.impl;
 
-import com.yb.chat.base.UserBase;
+import com.yb.chat.client.base.UserBase;
+import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.convert.ChatConvert;
 import com.yb.chat.dao.ChatMessageMapper;
 import com.yb.chat.dao.LogInfoMapper;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -189,6 +189,64 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public List<ChatMessage> findChatMessage(String userA, String userB, Integer pageIndex) {
-        return mapper.findChatMessage(userA, userB);
+        if (userB.equals("群聊")) {
+            return mapper.findChatMessageGroup(userB);
+        } else {
+            return mapper.findChatMessage(userA, userB);
+        }
+    }
+    /**
+     * 查询用户详细信息
+     * @param user
+     *
+     * @return
+     */
+    @Override
+    public UserBaseInfo findInfo(String user) {
+        UserInfo userInfo = findSelf(user);
+        if (userInfo != null) {
+            return ChatConvert.convertUserToUserBaseInfo(userInfo);
+        } else {
+            return null;
+        }
+    }
+    /**
+     * 修改个人信息
+     * @param userBaseInfo
+     *
+     * @return
+     */
+    @Override
+    public String editInfo(UserBaseInfo userBaseInfo) {
+        String code = "-1";
+        if (userBaseInfo != null) {
+            UserInfo self = findSelf(userBaseInfo.getName());
+            self.setCareer(userBaseInfo.getCareer());
+            self.setGender(userBaseInfo.getGender());
+            self.setJobAddress(userBaseInfo.getJobAddress());
+            self.setPhone(userBaseInfo.getPhone());
+            self.setRealName(userBaseInfo.getRealName());
+            self.setRemark(userBaseInfo.getRemark());
+            self.setSchool(userBaseInfo.getSchool());
+            self.setWechat(userBaseInfo.getWechat());
+            Example example = new Example(UserInfo.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("name", userBaseInfo.getName());
+            int e = mapper.updateByExample(self, example);
+            if (e != 0){
+                code = "0";
+            }
+        }
+        return code;
+    }
+
+    @Override
+    public List<UserInfo> friendsByName(String name) {
+        List<UserInfo> userInfos = mapper.selectAll();
+        if (!userInfos.isEmpty()) {
+            return userInfos;
+        } else {
+            return null;
+        }
     }
 }
