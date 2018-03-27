@@ -70,7 +70,7 @@ public class ChatServer {
      */
     private UserService userService;
     public static Map<String, UserInfo> userInfoMap = new HashMap<>();
-        private static List list = new ArrayList<>();   //在线列表,记录用户名称
+        public static List list = new ArrayList<>();   //在线列表,记录用户名称
     private static Map routetab = new HashMap<>();  //用户名和websocket的session绑定的路由表
     /**
      * 连接建立成功调用的方法

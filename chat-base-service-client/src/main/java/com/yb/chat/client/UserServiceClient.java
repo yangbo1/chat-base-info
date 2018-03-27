@@ -23,7 +23,7 @@ import static com.yb.chat.client.UserServiceClient.PATH;
  * @version 1.00
  * @since 2018/1/24 0024 17:55
  */
-@FeignClient(path = PATH)
+@FeignClient(name = "base",path = PATH)
 @CrossOrigin("*")
 public interface UserServiceClient {
     String PATH = "service/v1/user";
@@ -94,4 +94,11 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "/editInfo", method = RequestMethod.POST)
     Object editInfo(@RequestBody UserBaseInfo userBaseInfo);
+
+    /**
+     * 在线的
+     * @return
+     */
+    @RequestMapping(value = "online", method = RequestMethod.GET)
+    Object online();
 }

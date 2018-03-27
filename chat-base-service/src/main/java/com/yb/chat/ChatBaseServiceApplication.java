@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
+@EnableFeignClients(basePackages = {"com.yb.chat.client"})
 @MapperScan("com.yb.chat.dao")
 public class ChatBaseServiceApplication {
 

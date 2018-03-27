@@ -119,4 +119,9 @@ public class UserController implements UserServiceClient {
         return userService.editInfo(userBaseInfo);
     }
 
+    @Override
+    public List online() {
+        return ChatServer.list;
+    }
+
 }
