@@ -101,4 +101,20 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "online", method = RequestMethod.GET)
     Object online();
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    @RequestMapping(value = "allUser", method = RequestMethod.POST)
+    Object allUser(@RequestParam("currentPage")int currentPage, @RequestParam("pageSize") int pageSize);
+
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return
+     */
+    @RequestMapping(value = "lastTime/{name}", method = RequestMethod.GET)
+    Object lastLoginTime(@PathVariable("name") String name);
 }

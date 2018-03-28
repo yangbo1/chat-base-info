@@ -3,6 +3,8 @@
  */
 package com.yb.chat.serivce.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.convert.ChatConvert;
@@ -248,5 +250,22 @@ public class UserServiceImpl implements UserService{
         } else {
             return null;
         }
+    }
+
+    @Override
+    public PageInfo<UserInfo> findAll(int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(mapper.selectAll()) ;
+        return pageInfo;
+    }
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return
+     */
+    @Override
+    public Long getLastLoginTime(String name) {
+        return mapper.getLastLoginTime(name);
     }
 }

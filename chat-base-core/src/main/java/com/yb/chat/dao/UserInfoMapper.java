@@ -38,4 +38,11 @@ public interface UserInfoMapper extends MyMapper<UserInfo> {
     List<ChatMessage> findChatMessage(@Param("userA") String userA, @Param("userB") String userB);
 
     List<ChatMessage> findChatMessageGroup(@Param("userB")String userB);
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return
+     */
+    Long getLastLoginTime(String name);
 }

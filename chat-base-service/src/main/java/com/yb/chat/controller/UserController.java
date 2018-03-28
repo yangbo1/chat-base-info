@@ -3,6 +3,7 @@
  */
 package com.yb.chat.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.UserServiceClient;
@@ -122,6 +123,24 @@ public class UserController implements UserServiceClient {
     @Override
     public List online() {
         return ChatServer.list;
+    }
+    /**
+     * 查询所有用户
+     * @return
+     */
+    @Override
+    public PageInfo<UserInfo> allUser(@RequestParam("currentPage")int currentPage, @RequestParam("pageSize") int pageSize) {
+        return userService.findAll(currentPage, pageSize);
+    }
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return
+     */
+    @Override
+    public Long lastLoginTime(@PathVariable("name")String name) {
+        return userService.getLastLoginTime(name);
     }
 
 }

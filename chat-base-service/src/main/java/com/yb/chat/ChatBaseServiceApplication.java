@@ -1,7 +1,7 @@
 package com.yb.chat;
 
 import com.yb.chat.server.ChatServer;
-import com.yb.chat.server.RequestListener;
+//import com.yb.chat.server.RequestListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -22,12 +22,12 @@ public class ChatBaseServiceApplication {
 		ConfigurableApplicationContext run = SpringApplication.run(ChatBaseServiceApplication.class, args);
 		ChatServer.setApplicationContext(run);
 	}
-	@Autowired
+	/*@Autowired
 	private RequestListener requestListener;
 	@Bean
 	public ServletListenerRegistrationBean<RequestListener> servletListenerRegistrationBean() {
 		ServletListenerRegistrationBean<RequestListener> servletListenerRegistrationBean = new ServletListenerRegistrationBean<>();
 		servletListenerRegistrationBean.setListener(requestListener);
 		return servletListenerRegistrationBean;
-	}
+	}*/
 }

@@ -48,14 +48,14 @@ import javax.websocket.server.ServerEndpoint;
  * @version 1.00
  * @since 2018/1/30 0030 16:28
  */
-@ServerEndpoint(value = "/chatServer/{userId}", configurator = HttpSessionConfigurator.class)
+@ServerEndpoint(value = "/chatServer/{userId}"/*, configurator = HttpSessionConfigurator.class*/)
 @Component
 public class ChatServer {
     private static int onlineCount = 0; //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static CopyOnWriteArraySet<ChatServer> webSocketSet = new CopyOnWriteArraySet<ChatServer>();
     private Session session;    //与某个客户端的连接会话，需要通过它来给客户端发送数据
 //    private String userid;      //用户名
-    private HttpSession httpSession;    //request的session
+//    private HttpSession httpSession;    //request的session
     /**
      * 给springboot启动类注入
      */

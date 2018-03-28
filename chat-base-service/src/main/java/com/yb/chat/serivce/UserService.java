@@ -3,6 +3,7 @@
  */
 package com.yb.chat.serivce;
 
+import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.entity.ChatMessage;
@@ -103,4 +104,18 @@ public interface UserService {
      * @return 好友列表
      */
     List<UserInfo> friendsByName(String name);
+    /**
+     * 查询所有用户
+     * @return
+     * @param currentPage
+     * @param pageSize
+     */
+    PageInfo<UserInfo> findAll(int currentPage, int pageSize);
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return
+     */
+    Long getLastLoginTime(String name);
 }

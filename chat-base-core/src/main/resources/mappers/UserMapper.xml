@@ -45,4 +45,17 @@
         c.user_b = #{userB}
         ORDER BY c.time
     </select>
+    <select id="getLastLoginTime" resultType="Long" parameterType="String">
+        SELECT
+	        c.time
+        FROM
+            chat_base_info.log_info c
+        WHERE
+            c.user_name = #{name}
+        AND
+            c.type = 1
+        ORDER BY
+            c.id DESC
+          LIMIT 1
+    </select>
 </mapper>
