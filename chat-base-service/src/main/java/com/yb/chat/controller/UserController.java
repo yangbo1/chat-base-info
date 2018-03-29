@@ -8,7 +8,9 @@ import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
+import com.yb.chat.client.response.LogResp;
 import com.yb.chat.entity.ChatMessage;
+import com.yb.chat.entity.LogInfo;
 import com.yb.chat.entity.UserInfo;
 import com.yb.chat.serivce.UserService;
 import com.yb.chat.server.ChatServer;
@@ -141,6 +143,23 @@ public class UserController implements UserServiceClient {
     @Override
     public Long lastLoginTime(@PathVariable("name")String name) {
         return userService.getLastLoginTime(name);
+    }
+    /**
+     * 查询登录日志
+     * @param name
+     *
+     * @return
+     */
+    @Override
+    public PageInfo<LogResp> log(@RequestParam("name")String name, @RequestParam("currentPage")int currentPage,
+            @RequestParam("pageSize") int pageSize, @RequestParam("sort") String sort) {
+        return userService.findLog(name, currentPage, pageSize, sort);
+    }
+
+    @Override
+    public List<String> getUserName() {
+
+        return userService.getUserName();
     }
 
 }

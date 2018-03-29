@@ -6,6 +6,7 @@ package com.yb.chat.serivce;
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
+import com.yb.chat.client.response.LogResp;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
 
@@ -118,4 +119,15 @@ public interface UserService {
      * @return
      */
     Long getLastLoginTime(String name);
+    /**
+     * 查询登录日志
+     * @param name
+     *
+     * @param sort
+     * @param currentPage
+     * @param pageSize @return
+     */
+    PageInfo<LogResp> findLog(String name, int currentPage, int pageSize, String sort );
+
+    List<String> getUserName();
 }

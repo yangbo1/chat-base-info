@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
+import com.yb.chat.client.response.LogResp;
 import com.yb.chat.convert.ChatConvert;
 import com.yb.chat.dao.ChatMessageMapper;
 import com.yb.chat.dao.LogInfoMapper;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -267,5 +269,30 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long getLastLoginTime(String name) {
         return mapper.getLastLoginTime(name);
+    }
+
+    @Override
+    public PageInfo<LogResp> findLog(String name, int currentPage, int pageSize, String sort) {
+        PageHelper.startPage(currentPage, pageSize);
+
+//        if (!Strings.isNullOrEmpty(name)) {
+//            Example example = new Example(LogInfo.class);
+//            Example.Criteria criteria = example.createCriteria();
+//            criteria.andEqualTo("userName", name);
+//            List<LogInfo> logInfos = logInfoMapper.selectByExample(example);
+//        }
+        List<LogResp> logResps = logInfoMapper.findLog(name, sort);
+        PageInfo<LogResp> logRespPageInfo = new PageInfo<>(logResps);
+        return logRespPageInfo;
+    }
+
+    @Override
+    public List<String> getUserName() {
+        List<UserInfo> userInfos = mapper.selectAll();
+        List<String> list = new ArrayList<>();
+        for (UserInfo u : userInfos) {
+            list.add(u.getName());
+        }
+        return list;
     }
 }

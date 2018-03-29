@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yb.chat.dao.LogInfoMapper">
+    <resultMap id="log" type="com.yb.chat.client.response.LogResp">
+        <result property="userName" column="user_name" jdbcType="VARCHAR"></result>
+        <result property="type" column="type" jdbcType="VARCHAR"></result>
+        <result property="time" column="time" jdbcType="BIGINT"></result>
+        <result property="address" column="address" jdbcType="VARCHAR"></result>
+        <result property="system" column="system" jdbcType="VARCHAR"></result>
+        <result property="isAdmin" column="is_admin" jdbcType="VARCHAR"></result>
+    </resultMap>
+   <select id="findLog" parameterType="String" resultMap="log">
+       SELECT
+       c.user_name,
+       c.type,
+       c.time,
+       c.address,
+       c.system,
+       c.is_admin
+       FROM
+       chat_base_info.log_info c
+      <if test="name != null and name != ''">
+          WHERE
+          c.user_name = #{name}
+      </if>
+       <if test="sort == 1">
+           ORDER BY
+           c.time
+           DESC
+       </if>
+   </select>
+</mapper>

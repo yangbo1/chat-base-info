@@ -2,8 +2,10 @@ package com.yb.chat.client; /**
  * Copyright (c) 2014-2018  墨博云舟 All Rights Reserved.
  */
 
+import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.response.ChatResult;
+import com.yb.chat.client.response.LogResp;
 import com.yb.chat.client.response.UserResp;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -117,4 +119,17 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "lastTime/{name}", method = RequestMethod.GET)
     Object lastLoginTime(@PathVariable("name") String name);
+
+    /**
+     * 查询登录日志
+     * @param name
+     *
+     * @return
+     */
+    @RequestMapping(value = "log", method = RequestMethod.POST)
+    PageInfo<LogResp> log(@RequestParam("name") String name, @RequestParam("currentPage")int currentPage,
+            @RequestParam("pageSize") int pageSize, @RequestParam("sort") String sort);
+
+    @RequestMapping(value = "user/name", method = RequestMethod.GET)
+    List<String> getUserName();
 }
