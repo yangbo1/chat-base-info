@@ -48,7 +48,8 @@ public interface UserServiceClient {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    Object login(@RequestParam("name") String name, @RequestParam("password") String password);
+    Object login(@RequestParam("name") String name, @RequestParam("password") String password,
+            @RequestParam("system") String system, @RequestParam("address") String address);
 
 
     /**

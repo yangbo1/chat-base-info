@@ -35,7 +35,7 @@ public interface UserService {
      * @param password 密码
      * @return
      */
-    UserInfo login(String name, String password);
+    UserInfo login(String name, String password, String system, String address);
 
     /**
      * 查询好友
@@ -56,7 +56,7 @@ public interface UserService {
      * 登陆记录
      * @param name 用户名
      */
-    void login(String name);
+    void login(String name, String system, String address);
 
     /**
      * 登出记录

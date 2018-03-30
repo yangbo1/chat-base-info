@@ -85,14 +85,14 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public UserInfo login(String name, String password) {
+    public UserInfo login(String name, String password,  String system, String address) {
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("name", name);
         criteria.andEqualTo("password", password);
         List<UserInfo> userInfos = mapper.selectByExample(example);
         if (!userInfos.isEmpty()) {
-            login(name);
+            login(name, system, address);
             return userInfos.get(0);
         } else {
             return null;
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService{
      * @param name 用户名
      */
     @Override
-    public void login(String name) {
+    public void login(String name,  String system, String address) {
         UserInfo userInfo = findSelf(name);
         LogInfo logInfo;
         if (userInfo != null) {
@@ -142,6 +142,8 @@ public class UserServiceImpl implements UserService{
             logInfo.setUserName(userInfo.getName());
             logInfo.setType(ChatContants.LOG_LOGIN);
             logInfo.setTime(System.currentTimeMillis());
+            logInfo.setAddress(address);
+            logInfo.setSystem(system);
             logInfoMapper.insert(logInfo);
         }
     }

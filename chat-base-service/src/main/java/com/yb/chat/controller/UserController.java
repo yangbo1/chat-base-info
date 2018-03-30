@@ -62,8 +62,8 @@ public class UserController implements UserServiceClient {
      * @return
      */
     @Override
-    public ChatResult login(String name, String password) {
-        UserInfo user = userService.login(name, password);
+    public ChatResult login(String name, String password, String system, String address) {
+        UserInfo user = userService.login(name, password, system, address);
         if (user != null) {
 //            request.getSession().setAttribute(name, name);
             ChatServer.userInfoMap.put(name, user);
