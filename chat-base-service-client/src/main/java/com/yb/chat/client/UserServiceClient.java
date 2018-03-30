@@ -5,6 +5,7 @@ package com.yb.chat.client; /**
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.response.ChatResult;
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.client.response.UserResp;
 
@@ -132,4 +133,18 @@ public interface UserServiceClient {
 
     @RequestMapping(value = "user/name", method = RequestMethod.GET)
     List<String> getUserName();
+
+    /**
+     * 统计每天在线人数
+     * @return
+     */
+    @RequestMapping(value = "countUserByDay", method = RequestMethod.POST)
+    List<CountUserResp> getCountUserByDay();
+
+    /**
+     * 统计每天登录人次
+     * @return
+     */
+    @RequestMapping(value = "countTimesByDay", method = RequestMethod.POST)
+    List<CountUserResp> getCountTimesByDay();
 }

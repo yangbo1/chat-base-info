@@ -29,4 +29,30 @@
            DESC
        </if>
    </select>
+    <resultMap id="countByDay" type="com.yb.chat.client.response.CountUserResp">
+        <result property="date" column="day" jdbcType="VARCHAR"></result>
+        <result property="num" column="num" jdbcType="INTEGER"></result>
+    </resultMap>
+    <select id="getCountUserByDay" resultMap="countByDay">
+        SELECT
+            FROM_UNIXTIME(c.time/1000, '%Y-%m-%d') day,
+            COUNT(DISTINCT c.user_name) num
+        FROM
+            chat_base_info.log_info c
+        WHERE
+            c.type = 1
+        GROUP BY
+            day
+    </select>
+    <select id="getCountTimesByDay" resultMap="countByDay">
+        SELECT
+        FROM_UNIXTIME(c.time/1000, '%Y-%m-%d') day,
+        COUNT(c.user_name) num
+        FROM
+        chat_base_info.log_info c
+        WHERE
+        c.type = 1
+        GROUP BY
+        day
+    </select>
 </mapper>

@@ -6,6 +6,7 @@ package com.yb.chat.serivce;
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.UserInfo;
@@ -130,4 +131,14 @@ public interface UserService {
     PageInfo<LogResp> findLog(String name, int currentPage, int pageSize, String sort );
 
     List<String> getUserName();
+    /**
+     * 统计每天在线人数
+     * @return
+     */
+    List<CountUserResp> getCountUserByDay();
+    /**
+     * 统计每天登录人次
+     * @return
+     */
+    List<CountUserResp> getCountTimesByDay();
 }

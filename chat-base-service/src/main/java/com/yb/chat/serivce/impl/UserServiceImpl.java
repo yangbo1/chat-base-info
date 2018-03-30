@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.convert.ChatConvert;
 import com.yb.chat.dao.ChatMessageMapper;
@@ -294,5 +295,21 @@ public class UserServiceImpl implements UserService{
             list.add(u.getName());
         }
         return list;
+    }
+    /**
+     * 统计每天在线人数
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountUserByDay() {
+        return logInfoMapper.getCountUserByDay();
+    }
+    /**
+     * 统计每天登录人次
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountTimesByDay() {
+        return logInfoMapper.getCountTimesByDay();
     }
 }

@@ -8,6 +8,7 @@ import com.yb.chat.client.base.UserBase;
 import com.yb.chat.client.base.UserBaseInfo;
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.client.response.ChatResult;
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.entity.ChatMessage;
 import com.yb.chat.entity.LogInfo;
@@ -160,6 +161,22 @@ public class UserController implements UserServiceClient {
     public List<String> getUserName() {
 
         return userService.getUserName();
+    }
+    /**
+     * 统计每天在线人数
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountUserByDay() {
+        return userService.getCountUserByDay();
+    }
+    /**
+     * 统计每天登录人次
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountTimesByDay() {
+        return userService.getCountTimesByDay();
     }
 
 }
