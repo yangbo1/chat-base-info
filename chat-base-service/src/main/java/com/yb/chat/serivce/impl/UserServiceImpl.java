@@ -314,4 +314,9 @@ public class UserServiceImpl implements UserService{
     public List<CountUserResp> getCountTimesByDay() {
         return logInfoMapper.getCountTimesByDay();
     }
+
+    @Override
+    public String getStopTime(String name) {
+        return mapper.getStopTime(name);
+    }
 }

@@ -45,4 +45,6 @@ public interface UserInfoMapper extends MyMapper<UserInfo> {
      * @return
      */
     Long getLastLoginTime(String name);
+
+    String getStopTime(String name);
 }

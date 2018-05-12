@@ -148,4 +148,19 @@ public interface UserServiceClient {
      */
     @RequestMapping(value = "countTimesByDay", method = RequestMethod.POST)
     List<CountUserResp> getCountTimesByDay();
+
+    /**
+     * 禁言
+     * @param message 消息类型
+     */
+    @RequestMapping(value = "stopMessage", method = RequestMethod.POST)
+    void stopMessage(@RequestParam("message") String message);
+
+    /**
+     * 查询用户的禁言时间
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "stopTime/{name}", method = RequestMethod.GET)
+    String stopTime(@PathVariable("name") String name);
 }

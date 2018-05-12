@@ -179,4 +179,14 @@ public class UserController implements UserServiceClient {
         return userService.getCountTimesByDay();
     }
 
+    @Override
+    public void stopMessage(@RequestParam("message") String message) {
+        ChatServer.admin(message);
+    }
+
+    @Override
+    public String stopTime(@PathVariable("name") String name) {
+        return userService.getStopTime(name);
+    }
+
 }

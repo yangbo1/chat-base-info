@@ -54,6 +54,35 @@ public class ChatServer {
     private static int onlineCount = 0; //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static CopyOnWriteArraySet<ChatServer> webSocketSet = new CopyOnWriteArraySet<ChatServer>();
     private Session session;    //与某个客户端的连接会话，需要通过它来给客户端发送数据
+    public static void admin(String _message) {
+        if (userService == null) {
+            userService = (UserService) applicationContext.getBean("userService");
+        }
+        JSONObject chat = JSON.parseObject(_message);
+        JSONObject message = JSON.parseObject(chat.get("message").toString());
+        //定义聊天类
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setUserA("管理员");
+        chatMessage.setChatMessage(_message);
+        chatMessage.setTime(System.currentTimeMillis());
+
+        String [] userlist = message.get("to").toString().split(",");
+        for(String user : userlist){
+            if(!user.equals(message.get("from"))){
+                if (routetab.get(user) != null) {
+
+                    singleSend(_message, (Session) routetab.get(user));     //分别发送给每个指定用户
+                    //保存聊天记录
+                    chatMessage.setUserB(message.get("to").toString());
+                    userService.saveChatMessage(chatMessage);
+                } else {
+                    //保存聊天记录
+                    chatMessage.setUserB(message.get("to").toString());
+                    userService.saveChatMessage(chatMessage);
+                }
+            }
+        }
+    }
 //    private String userid;      //用户名
 //    private HttpSession httpSession;    //request的session
     /**
@@ -68,7 +97,7 @@ public class ChatServer {
     /**
      * service
      */
-    private UserService userService;
+    private static UserService userService;
     public static Map<String, UserInfo> userInfoMap = new HashMap<>();
         public static List list = new ArrayList<>();   //在线列表,记录用户名称
     private static Map routetab = new HashMap<>();  //用户名和websocket的session绑定的路由表
@@ -204,7 +233,7 @@ public class ChatServer {
      * 广播消息
      * @param message
      */
-    public void broadcast(String message){
+    public static void broadcast(String message){
         for(ChatServer chat: webSocketSet){
             try {
                 chat.session.getBasicRemote().sendText(message);
@@ -220,7 +249,7 @@ public class ChatServer {
      * @param message
      * @param session
      */
-    public void singleSend(String message, Session session){
+    public static void singleSend(String message, Session session){
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException e) {

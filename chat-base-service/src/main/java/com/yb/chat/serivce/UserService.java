@@ -141,4 +141,6 @@ public interface UserService {
      * @return
      */
     List<CountUserResp> getCountTimesByDay();
+
+    String getStopTime(String name);
 }

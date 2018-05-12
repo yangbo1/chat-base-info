@@ -58,4 +58,14 @@
             c.id DESC
           LIMIT 1
     </select>
+    <select id="getStopTime" resultType="String" parameterType="String">
+        SELECT
+            c.chat_message
+        FROM
+            chat_base_info.chat_message c
+        WHERE time = (
+        SELECT MAX(time) from chat_base_info.chat_message c1 WHERE
+            user_a = '管理员'
+        AND user_b = #{name})
+    </select>
 </mapper>
